@@ -5,6 +5,7 @@ const sendinblue = require('sendinblue-api');
 const url = 'https://www.amazon.com/2021-Modern-Reloading-Manual-2nd/dp/B094ZKD1WN/';
 const sendinblueApiKey = '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';
 const fromEmail = 'thiagovertuan@hotmail.com';
+const fromEmailPassword = '123456';
 const toEmail = 'demoniakow@hotmail.com';
 
 // Configurar o cliente do Sendinblue
@@ -17,6 +18,7 @@ function sendEmail(subject, text) {
     sender: {email: fromEmail},
     subject: subject,
     textContent: text,
+    replyTo: {email: fromEmail}
   };
 
   sendinblueClient.sendTransacEmail(sendSmtpEmail)
@@ -53,7 +55,31 @@ fetch(url)
     // Enviar email diário com o conteúdo da variável `message`
     const subject = 'Relatório diário do Buybox';
     const text = `Data: ${new Date().toISOString()}\n\n${message.join('\n')}`;
-    sendEmail(subject, text);
+    
+    // Enviar e-mail autenticado
+    const nodemailer = require('nodemailer');
+    const transporter = nodemailer.createTransport({
+        service: 'hotmail',
+        auth: {
+            user: fromEmail,
+            pass: fromEmailPassword
+        }
+    });
+
+    const mailOptions = {
+        from: fromEmail,
+        to: toEmail,
+        subject: subject,
+        text: text
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email enviado: ' + info.response);
+        }
+    });
   })
   .catch(error => {
     console.log(error);
