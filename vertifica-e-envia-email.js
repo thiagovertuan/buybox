@@ -3,9 +3,9 @@ const DOMParser = require('dom-parser');
 const sendinblue = require('sendinblue-api');
 
 const url = 'https://www.amazon.com/2021-Modern-Reloading-Manual-2nd/dp/B094ZKD1WN/';
-const sendinblueApiKey = 'SENDINBLUE_API_KEY';
-const fromEmail = 'FROM_EMAIL';
-const toEmail = 'TO_EMAIL';
+const sendinblueApiKey = 'SUA_API_KEY_AQUI';
+const fromEmail = 'SEU_EMAIL_AQUI';
+const toEmail = 'EMAIL_DO_DESTINATARIO_AQUI';
 
 // Configurar o cliente do Sendinblue
 const sendinblueClient = new sendinblue({apiKey: sendinblueApiKey, timeout: 5000});
@@ -41,18 +41,18 @@ fetch(url)
     const horaFormatada = dataAtual.toLocaleTimeString('pt-BR');
     const dataHoraFormatada = `${dataFormatada} - ${horaFormatada}`;
 
-    let message = '';
+    let message = [];
 
     if (buyboxContainer && buyboxContainer.textContent.indexOf("Atreo") === -1) {
-      message = "[ NÃO TEMOS BUYBOX ] - [ "+dataHoraFormatada+" ]";
+      message.push("[ NÃO TEMOS BUYBOX ] - [ "+dataHoraFormatada+" ]");
     }
     else {
-       message = "[ TEMOS BUYBOX ] - [ "+dataHoraFormatada+" ]";
+       message.push("[ TEMOS BUYBOX ] - [ "+dataHoraFormatada+" ]");
     }
 
     // Enviar email diário com o conteúdo da variável `message`
     const subject = 'Relatório diário do Buybox';
-    const text = `Data: ${new Date().toISOString()}\n\n${message}`;
+    const text = `Data: ${new Date().toISOString()}\n\n${message.join('\n')}`;
     sendEmail(subject, text);
   })
   .catch(error => {
