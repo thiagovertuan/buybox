@@ -4,21 +4,22 @@ fetch(url)
   .then(response => response.text())
   .then(data => {
     // Analisar a resposta do site da AMAZON e extrair informações de conteudo se temos buybox
-    let ver;
+    let message "";
+    const fs = require('fs');
+    const logFile = './log.txt';
     const parser = new DOMParser();
     const doc = parser.parseFromString(data, "text/html");
 
     const buyboxContainer = doc.querySelector('.tabular-buybox-container');
 
     if (buyboxContainer && buyboxContainer.textContent.indexOf("Atreo") === -1) {
-      //console.log("NÃO TEMOS BUYBOX");
-      ver = "false";
-      location.href = location.href.split("?")[0] +"?buybox="+ver
+      message = "NÃO TEMOS BUYBOX";
+      fs.appendFileSync(logFile, message + '\n');
     }
     else
     {
-      ver = "true";  
-      location.href = location.href.split("?")[0] +"?buybox="+ver 
+      message = "TEMOS BUYBOX";
+      fs.appendFileSync(logFile, message + '\n');
     }
   })
   .catch(error => {
