@@ -3,7 +3,7 @@ const DOMParser = require('dom-parser');
 const sendinblue = require('sendinblue-api');
 
 const url = 'https://www.amazon.com/2021-Modern-Reloading-Manual-2nd/dp/B094ZKD1WN/';
-const sendinblueApiKey = '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';
+const sendinblueApiKey = 'xxxxxxx';
 const fromEmail = 'thiagovertuan@hotmail.com';
 const fromEmailPassword = 'xxxxxx';
 const toEmail = 'demoniakow@hotmail.com';
