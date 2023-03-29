@@ -36,13 +36,18 @@ fetch(url)
     const doc = parser.parseFromString(data, "text/html");
 
     const buyboxContainer = doc.querySelector('.tabular-buybox-container');
+    const dataAtual = new Date();
+    const dataFormatada = dataAtual.toLocaleDateString('pt-BR');
+    const horaFormatada = dataAtual.toLocaleTimeString('pt-BR');
+    const dataHoraFormatada = `${dataFormatada} - ${horaFormatada}`;
+
     let message = '';
 
     if (buyboxContainer && buyboxContainer.textContent.indexOf("Atreo") === -1) {
-      message = "NÃO TEMOS BUYBOX";
+      message = "[ NÃO TEMOS BUYBOX ] - [ "+dataHoraFormatada+" ]";
     }
     else {
-       message = "TEMOS BUYBOX";
+       message = "[ TEMOS BUYBOX ] - [ "+dataHoraFormatada+" ]";
     }
 
     // Enviar email diário com o conteúdo da variável `message`
